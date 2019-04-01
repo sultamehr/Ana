@@ -1,0 +1,5 @@
+# ROOT map file generated automatically by genmap on Sat Mar  9 09:21:50 2019
+
+Library.__pf__@@HitTaggerTool: libCCQENu.so
+Library.__pf__@@CCQENuRecoUtils: libCCQENu.so
+Library.__pf__@@CCQENu: libCCQENu.so

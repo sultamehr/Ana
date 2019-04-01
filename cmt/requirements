@@ -1,0 +1,45 @@
+package CCQENu
+version ${MINERVA_RELEASE}
+
+branches cmt src
+
+#==============================================================================
+
+use MinervaGenEvent     v*   Event
+use MinervaEvent        v*   Event
+use MinervaUtils        v*   Tools
+
+use ProngMaker          v*   Rec
+use ParticleMaker       v*   Rec
+use BlobFormation       v*   Rec
+use EventRecInterfaces  v*   Rec
+use AnaInterfaces       v*   Ana
+use AnaUtils            v*   Ana
+use RecoStudies         v*   Ana
+
+use MNVDetectormc       v*   Sim
+use PlotUtils           v*   Ana
+use UnfoldUtils         v*   Ana
+
+use SystemTests         v*   Tools
+#==============================================================================
+
+library CCQENu      *.cpp
+apply_pattern component_library library=CCQENu
+
+apply_pattern install_more_includes more=CCQENu 
+#==============================================================================
+private
+set CCQENU_ANA "${CCQENUROOT}/ana_common" 
+
+#The cmt macro "$(includes)" contains the include paths from all the 
+#packages that are used by this one. We want access to that set of 
+#paths for the Makefiles that live in /ana/, so use "set" to 
+#turn it into an environmental variable 
+
+set CCQENU_INCLUDE_PATH "$(includes)" 
+
+end_private
+
+path_append LD_LIBRARY_PATH "${CCQENU_ANA}/lib"
+
