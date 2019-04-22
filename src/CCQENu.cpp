@@ -575,17 +575,7 @@ StatusCode CCQENu::initialize() {
     declareContainerDoubleEventBranch("mehtool_michel_z1");
     declareContainerDoubleEventBranch("mehtool_michel_z2");
 
-
-
-
-
-
-
-
-
-
-
-
+    declareContainerDoubleEventBranch("mehtool_michel_maxmeandiff");
 
 
 
@@ -3013,6 +3003,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
      std::vector<double> mehtool_closestclusterU_Z_posvec;
      std::vector<double> mehtool_closestclusterV_Z_posvec;
 
+     std::vector<double> mehtool_michel_maxmeandiffvec;
 
 
 
@@ -3060,6 +3051,66 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
        double michelenergy = m_improvedmichelTool->GetMichelVisibleEnergy(imichel);
 
+       std::vector<double> zpositions_michclus;
+
+       std::vector<const Minerva::IDCluster*> idclusters;
+       std::vector<const Minerva::IDCluster*> michelclusters;
+       const SmartRefVector<Minerva::IDCluster> clustersfromcandidate = m_improvedmichelTool->GetMichelClusters(imichel);
+       idclusters.insert(idclusters.begin(), clustersfromcandidate.begin(), clustersfromcandidate.end());
+
+       for( SmartRefVector<Minerva::IDCluster>::const_iterator itClus = clustersfromcandidate.begin(); itClus != clustersfromcandidate.end(); ++itClus ){
+         double clus_t = (*itClus)->time();
+
+         double zpos1 = (*itClus)->z();
+
+         zpositions_michclus.push_back(zpos1);
+
+       }
+
+       double sum =std::accumulate(zpositions_michclus.begin(), zpositions_michclus.end(), 0.0);
+
+       double mean = sum/zpositions_michclus.size();
+
+       std::vector<double> diff(zpositions_michclus.size());
+       std::transform(zpositions_michclus.begin(), zpositions_michclus.end(), diff.begin(),
+               std::bind2nd(std::minus<double>(), mean));
+       double sq_sum = std::inner_product(diff.begin(), diff.end(), diff.begin(), 0.0);
+       double stdev = std::sqrt(sq_sum / zpositions_michclus.size());
+
+       int ncluster = -1;
+
+       double meandiff = -1.;
+
+       for( SmartRefVector<Minerva::IDCluster>::const_iterator itClus = clustersfromcandidate.begin(); itClus != clustersfromcandidate.end(); ++itClus ){
+         double clus_t = (*itClus)->time();
+
+         double zpos1 = (*itClus)->z();
+
+         double imeandiff = abs(mean - zpos1);
+
+         if (imeandiff > meandiff) meandiff = imeandiff;
+
+       }
+
+       mehtool_michel_maxmeandiffvec.push_back(meandiff);
+
+       //this is where I would remove that cluster from the michel candidate
+
+       /*for( SmartRefVector<Minerva::IDCluster>::const_iterator itClus = clustersfromcandidate.begin(); itClus != clustersfromcandidate.end(); ++itClus ){
+         double clus_t = (*itClus)->time();
+
+         double zpos1 = (*itClus)->z();
+
+         double imeandiff = abs(mean - zpos1);
+
+         if (imeandiff == meandiff) ;
+
+       }
+       */
+
+
+
+
 
        // I need containers to collect michel distances to all clusters in each view
 
@@ -3075,6 +3126,10 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        end1.SetCoordinates(michelX1, michelY1, michelZ1);
        Gaudi::XYZPoint end2;
        end2.SetCoordinates(michelX2, michelY2, michelZ2);
+
+
+
+
 
        SmartRefVector<Minerva::IDCluster> closestxclusters;
        SmartRefVector<Minerva::IDCluster> closestuclusters;
@@ -3547,6 +3602,8 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
      event->setContainerDoubleData("mehtool_michel_v2", mehtool_michel_v2_vec);
      event->setContainerDoubleData("mehtool_michel_z1", mehtool_michel_z1_vec);
      event->setContainerDoubleData("mehtool_michel_z2", mehtool_michel_z2_vec);
+
+     event->setContainerDoubleData("mehtool_michel_maxmeandiff", mehtool_michel_maxmeandiffvec);
 
      event->setContainerDoubleData("mehtool_closestclusterX_clustime", mehtool_closestclusterX_clustimevec);
      event->setContainerDoubleData("mehtool_closestclusterV_clustime", mehtool_closestclusterV_clustimevec);

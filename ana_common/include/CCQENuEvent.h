@@ -438,8 +438,6 @@ public :
    Int_t mehtool_closestclusterV_endpoint_sz;
    Int_t mehtool_closestclusterVZ_distance_sz;
 
-
-
    Double_t mehtool_michel_time[200];
    Int_t mehtool_michel_time_sz;
 
@@ -472,6 +470,11 @@ public :
    Int_t mehtool_michel_v2_sz;
    Int_t mehtool_michel_z1_sz;
    Int_t mehtool_michel_z2_sz;
+
+   Double_t mehtool_michel_maxmeandiff[200];
+   Int_t mehtool_michel_maxmeandiff_sz;
+
+
 
 
 
@@ -1383,9 +1386,8 @@ public :
    TBranch  *b_mehtool_closestclusterV_nclusz_sz;
 
 
-
-
-
+   TBranch *b_mehtool_michel_maxmeandiff;
+   TBranch *b_mehtool_michel_maxmeandiff_sz;
 
    // -------------------- True Matched Michel Variables
 
@@ -2384,6 +2386,9 @@ void CCQENU_ANA::CCQENuEvent::Init(TTree *tree, bool IsData)
   fChain->SetBranchAddress("mehtool_closestclusterX_Z_pos_sz", &mehtool_closestclusterX_Z_pos_sz, &b_mehtool_closestclusterX_Z_pos_sz);
   fChain->SetBranchAddress("mehtool_closestclusterU_Z_pos_sz", &mehtool_closestclusterU_Z_pos_sz, &b_mehtool_closestclusterU_Z_pos_sz);
   fChain->SetBranchAddress("mehtool_closestclusterV_Z_pos_sz", &mehtool_closestclusterV_Z_pos_sz, &b_mehtool_closestclusterV_Z_pos_sz);
+
+  fChain->SetBranchAddress("mehtool_michel_maxmeandiff", mehtool_michel_maxmeandiff, &b_mehtool_michel_maxmeandiff);
+  fChain->SetBranchAddress("mehtool_michel_maxmeandiff_sz", &mehtool_michel_maxmeandiff_sz, &b_mehtool_michel_maxmeandiff_sz);
 
 
 
