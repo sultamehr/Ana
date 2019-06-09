@@ -576,6 +576,7 @@ StatusCode CCQENu::initialize() {
     declareContainerDoubleEventBranch("mehtool_michel_z2");
 
     declareContainerDoubleEventBranch("mehtool_michel_maxmeandiff");
+    declareContainerIntEventBranch("mehtool_istrueMichel");
 
 
 
@@ -3005,6 +3006,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
      std::vector<double> mehtool_michel_maxmeandiffvec;
 
+     std::vector<int> mehtool_istrueMichelvec;
 
 
      std::cout <<"Looping over all " << nmichels <<" michels" << std::endl;
@@ -3078,7 +3080,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        double other_energy;
 
 
-       bool istrueMichel = false;
+       int istrueMichel = 0;
 
          if (truth){
          if(TruthMatcher->getDataFraction(michelclusters) < 0.5) { // check if overlay
@@ -3098,7 +3100,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
                if(trueMichel->GetProcessName().find("Decay") != std::string::npos)
                {
                  //std::cout << "Line 3143" << std::endl;
-                 istrueMichel = true;
+                 istrueMichel = 1;
                  break;
                }//If true Michel
 
@@ -3106,7 +3108,9 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
            } // For Michel Trajectory
           } //Get Data Fraction
         } //if truth
-        if (istrueMichel == false) continue;
+
+        mehtool_istrueMichelvec.push_back(istrueMichel);
+
 
 
 
@@ -3595,6 +3599,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
 
 
+     event->setContainerIntData("mehtool_istrueMichel", mehtool_istrueMichelvec);
 
      event->setIntData("mehtool_nmichelsmatch", nmichelmatch);
      event->setContainerIntData("mehtool_duplicate_michelindex", mehtool_duplicate_michelindexvec);
