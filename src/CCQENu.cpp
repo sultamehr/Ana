@@ -3064,8 +3064,51 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
          double zpos1 = (*itClus)->z();
 
          zpositions_michclus.push_back(zpos1);
+         michelclusters.push_back(*itClus);
 
        }
+
+       Minerva::TG4Trajectories* trajectories=NULL;
+
+       trajectories = get<Minerva::TG4Trajectories>( "MC/TG4Trajectories" );
+       Minerva::TG4Trajectory* trueMichel = NULL;
+       const Minerva::TG4Trajectory* MichelParent = NULL;
+       const Minerva::TG4Trajectory* MichelPrimaryParent = NULL;
+       double fraction;
+       double other_energy;
+
+
+       bool istrueMichel = false;
+
+         if (truth){
+         if(TruthMatcher->getDataFraction(michelclusters) < 0.5) { // check if overlay
+
+           StatusCode parent_sc = TruthMatcher->getTG4Trajectory(michelclusters, MichelParent, fraction, other_energy); //find   TG4Trajectory that created the Michel leading the the Michel track
+           if(!parent_sc) continue;
+
+           //use final position of Michel parent to get Michel trajectory
+           for(Minerva::TG4Trajectories::iterator it = trajectories->begin(); it != trajectories->end(); ++it) {
+             Minerva::TG4Trajectory * traject = *it;
+
+             //           if(traject->GetInitialPosition() == MichelParent->GetFinalPosition()) {
+             if(traject->GetParentId() == MichelParent->GetTrackId()){
+               if(abs(traject->GetPDGCode())==14) continue;
+               trueMichel = traject;
+               //Check if the Michel came from a decay or some kind of scattering
+               if(trueMichel->GetProcessName().find("Decay") != std::string::npos)
+               {
+                 //std::cout << "Line 3143" << std::endl;
+                 istrueMichel = true;
+                 break;
+               }//If true Michel
+
+             } //Where Michel CAme from
+           } // For Michel Trajectory
+          } //Get Data Fraction
+        } //if truth
+        if (istrueMichel == false) continue;
+
+
 
        double sum =std::accumulate(zpositions_michclus.begin(), zpositions_michclus.end(), 0.0);
 
@@ -3107,6 +3150,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
        }
        */
+
 
 
 
