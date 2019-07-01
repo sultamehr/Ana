@@ -2906,11 +2906,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
     std::vector<double> michel_true_time;
     //std::vector<int> michel_truematch;
 
-
-
-
-
-
     double muonTime = m_recoObjTimeTool->trackVertexTime(muonProng->minervaTracks()[0]);
     const double max_distance = 300.0; //in mm
 
@@ -3021,7 +3016,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
      for (int imichel = 0; imichel < nmichels; imichel++)
      {
        int fitpass = m_improvedmichelTool->GetMichelFitPass(imichel);
-       if ( fitpass == 0) continue; //Only look at fitted Michels in the event
+       if ( fitpass == 1) continue; //Only look at fitted Michels in the event
 
        std::cout <<"Skipped UnFitted Michels" << std::endl;
 
@@ -3051,7 +3046,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
        double micheltime = m_improvedmichelTool->GetMichelTime(imichel);
 
-       double michelenergy = m_improvedmichelTool->GetMichelVisibleEnergy(imichel);
+       double michelenergy = m_improvedmichelTool->GetMichelCalorimetricEnergy(imichel);
 
        std::vector<double> zpositions_michclus;
 
@@ -3072,7 +3067,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
        Minerva::TG4Trajectories* trajectories=NULL;
 
-       trajectories = get<Minerva::TG4Trajectories>( "MC/TG4Trajectories" );
        Minerva::TG4Trajectory* trueMichel = NULL;
        const Minerva::TG4Trajectory* MichelParent = NULL;
        const Minerva::TG4Trajectory* MichelPrimaryParent = NULL;
@@ -3083,6 +3077,8 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        int istrueMichel = 0;
 
          if (truth){
+           trajectories = get<Minerva::TG4Trajectories>( "MC/TG4Trajectories" );
+           fraction = TruthMatcher->getDataFraction(michelclusters);
          if(TruthMatcher->getDataFraction(michelclusters) < 0.5) { // check if overlay
 
            StatusCode parent_sc = TruthMatcher->getTG4Trajectory(michelclusters, MichelParent, fraction, other_energy); //find   TG4Trajectory that created the Michel leading the the Michel track
@@ -3110,9 +3106,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
         } //if truth
 
         mehtool_istrueMichelvec.push_back(istrueMichel);
-
-
-
 
        double sum =std::accumulate(zpositions_michclus.begin(), zpositions_michclus.end(), 0.0);
 
@@ -3155,11 +3148,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        }
        */
 
-
-
-
-
-
        // I need containers to collect michel distances to all clusters in each view
 
        std::vector<double> udistances;
@@ -3174,9 +3162,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        end1.SetCoordinates(michelX1, michelY1, michelZ1);
        Gaudi::XYZPoint end2;
        end2.SetCoordinates(michelX2, michelY2, michelZ2);
-
-
-
 
 
        SmartRefVector<Minerva::IDCluster> closestxclusters;
@@ -3420,9 +3405,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
                mehtool_closestclusterU_posvec.push_back(cluspos);
                mehtool_closestclusterU_Z_posvec.push_back(clusterz);
 
-
-
-
              }
 
              } else if( cview == Minerva::IDCluster::V ) {
@@ -3441,8 +3423,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
                mehtool_closestclusterV_clustimevec.push_back(clustime);
                mehtool_closestclusterV_posvec.push_back(cluspos);
                mehtool_closestclusterV_Z_posvec.push_back(clusterz);
-
-
 
              }
 
@@ -3464,11 +3444,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
              }
 
             }
-             //if (truth)
-
-             //{
-            //   std::cout <<  "http://minerva05.fnal.gov/Arachne/arachne.html\?det=SIM_minerva&recoVer=v21r1p1&run="<< //genMinHeader->RunNumber()<<"&subrun=" << genMinHeader->SubRunNumber() << "&gate=" << //truth->NumEventInFile()+1 << "&slice="<< event->sliceNumbers()[0] << std::endl;
-             //}
 
          } // End of Cluster matching loop. At the end of this loop, we should have three closest untracked clusters to the michel!
 
@@ -3480,21 +3455,20 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        //2. We want to get position, distance, slicenumber, energy, and views of these clusters
        //3. We want to also find out which end point the cluster is matched to.
 
+       SmartRefVector<Minerva::IDCluster> matchedclusters;
+       SmartRefVector<Minerva::IDCluster> picandidateclusters;
 
        for (SmartRefVector<Minerva::IDCluster>::iterator iclus = closestxclusters.begin(); iclus != closestxclusters.end(); iclus++)
        {
 
          std::cout << "ClUSTER time (ns)" << (*iclus)->time() << " view " << (*iclus)->view() << " position " << (*iclus)->position() << " energy " << (*iclus)->energy() << "  === \n" << std::endl;
-
-
-
-
+         matchedclusters.push_back(*iclus);
        }
 
        for (SmartRefVector<Minerva::IDCluster>::iterator iclus = closestuclusters.begin(); iclus != closestuclusters.end(); iclus++)
        {
          std::cout << "Cluster time (ns)" << (*iclus)->time() << " view " << (*iclus)->view() << " position " << (*iclus)->position() << " energy " << (*iclus)->energy() << "  === \n" << std::endl;
-
+         matchedclusters.push_back(*iclus);
 
        }
 
@@ -3502,6 +3476,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        {
 
          std::cout << "Cluster time (ns)" << (*iclus)->time() << " view " << (*iclus)->view() << " position " << (*iclus)->position() << " energy " << (*iclus)->energy() << "  === \n" << std::endl;
+         matchedclusters.push_back(*iclus);
        }
 
        mehtool_closestclusterX_ncluszvec.push_back(closestxclusters.size());
@@ -3515,13 +3490,47 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        mehtool_closestclusterV_ncluszvec.push_back(nclusv);
        mehtool_closestclusterX_ncluszvec.push_back(nclusx);
        mehtool_closestclusterU_ncluszvec.push_back(nclusu);
-
-       std::cout << "Line 3383" << std::endl;
-
        mehtool_nclustermatchpermichel.push_back(nclustermatch);
 
-       std::cout << "Line 3387" << std::endl;
+       for(SmartRefVector<Minerva::IDCluster>::iterator iclus = matchedclusters.begin(); iclus != matchedclusters.end(); iclus++)
+       {
 
+         double zpos1 = (*iclus)->z();
+         std::vector<double> zdiffclus;
+
+         for(SmartRefVector<Minerva::IDCluster>::iterator jclus = matchedclusters.begin()+1; jclus != matchedclusters.end(); jclus++)
+
+         {
+           double zpos2 = (*jclus)->z();
+
+           double zdiff = abs(zpos2 - zpos1);
+
+           zdiffclus.push_back(zdiff);
+
+         }
+
+         //double zdiffminimum = std::min_element(zdiffclus.begin(), zdiffclus.end());
+
+         //if (zdiffminimum < 40.)
+         //{
+        //   picandidateclusters.push_back(*iclus);
+         //}
+
+       }
+
+       for (SmartRefVector<Minerva::IDCluster>::iterator pclus = picandidateclusters.begin()+1; pclus != matchedclusters.end(); pclus++)
+       {
+         Minerva::IDCluster::View cview = (*pclus)->view();
+         double clustime = (*pclus)->time();
+         double clusterenergy = (*pclus)->energy();
+         double viewdistance1 = m_mathTool->viewDistance( (*pclus), end1 );
+         double viewdistance2 = m_mathTool->viewDistance((*pclus), end2 );
+         double clusterz = (*pclus)->z();
+         double cluspos = (*pclus)->position();
+         double clustertimediff = micheltime - clustime;
+
+
+       }
 
 
        SmartRefVector<Minerva::IDCluster> Xclustersmichel = m_improvedmichelTool->GetMichelXClusters(imichel);

@@ -474,6 +474,8 @@ public :
    Double_t mehtool_michel_maxmeandiff[200];
    Int_t mehtool_michel_maxmeandiff_sz;
 
+   Int_t mehtool_istrueMichel[200];
+   Int_t mehtool_istrueMichel_sz;
 
 
 
@@ -1388,6 +1390,9 @@ public :
 
    TBranch *b_mehtool_michel_maxmeandiff;
    TBranch *b_mehtool_michel_maxmeandiff_sz;
+
+   TBranch *b_mehtool_istrueMichel;
+   TBranch *b_mehtool_istrueMichel_sz;
 
    // -------------------- True Matched Michel Variables
 
@@ -2389,6 +2394,9 @@ void CCQENU_ANA::CCQENuEvent::Init(TTree *tree, bool IsData)
 
   fChain->SetBranchAddress("mehtool_michel_maxmeandiff", mehtool_michel_maxmeandiff, &b_mehtool_michel_maxmeandiff);
   fChain->SetBranchAddress("mehtool_michel_maxmeandiff_sz", &mehtool_michel_maxmeandiff_sz, &b_mehtool_michel_maxmeandiff_sz);
+
+  fChain->SetBranchAddress("mehtool_istrueMichel", mehtool_istrueMichel, &b_mehtool_istrueMichel);
+  fChain->SetBranchAddress("mehtool_istrueMichel_sz", &mehtool_istrueMichel_sz, &b_mehtool_istrueMichel_sz);
 
 
 
