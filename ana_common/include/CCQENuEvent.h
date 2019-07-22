@@ -394,6 +394,10 @@ public :
    Double_t   mehtool_closestclusterU_Z_pos[200];
    Double_t   mehtool_closestclusterV_Z_pos[200];
 
+   Double_t   mehtool_closestclusterX_pos[200];
+   Double_t   mehtool_closestclusterU_pos[200];
+   Double_t   mehtool_closestclusterV_pos[200];
+
    Double_t   mehtool_closestclusterX_clustime[200];
    Double_t   mehtool_closestclusterU_clustime[200];
    Double_t   mehtool_closestclusterV_clustime[200];
@@ -405,6 +409,11 @@ public :
    Int_t   mehtool_closestclusterX_Z_pos_sz;
    Int_t   mehtool_closestclusterU_Z_pos_sz;
    Int_t   mehtool_closestclusterV_Z_pos_sz;
+
+   Int_t   mehtool_closestclusterX_pos_sz;
+   Int_t   mehtool_closestclusterU_pos_sz;
+   Int_t   mehtool_closestclusterV_pos_sz;
+
 
 
 
@@ -1377,6 +1386,15 @@ public :
    TBranch *b_mehtool_closestclusterX_Z_pos_sz;
    TBranch *b_mehtool_closestclusterU_Z_pos_sz;
    TBranch *b_mehtool_closestclusterV_Z_pos_sz;
+
+   TBranch   *b_mehtool_closestclusterX_pos;
+   TBranch   *b_mehtool_closestclusterU_pos;
+   TBranch   *b_mehtool_closestclusterV_pos;
+
+   TBranch *b_mehtool_closestclusterX_pos_sz;
+   TBranch *b_mehtool_closestclusterU_pos_sz;
+   TBranch *b_mehtool_closestclusterV_pos_sz;
+
 
 
 
@@ -2391,6 +2409,14 @@ void CCQENU_ANA::CCQENuEvent::Init(TTree *tree, bool IsData)
   fChain->SetBranchAddress("mehtool_closestclusterX_Z_pos_sz", &mehtool_closestclusterX_Z_pos_sz, &b_mehtool_closestclusterX_Z_pos_sz);
   fChain->SetBranchAddress("mehtool_closestclusterU_Z_pos_sz", &mehtool_closestclusterU_Z_pos_sz, &b_mehtool_closestclusterU_Z_pos_sz);
   fChain->SetBranchAddress("mehtool_closestclusterV_Z_pos_sz", &mehtool_closestclusterV_Z_pos_sz, &b_mehtool_closestclusterV_Z_pos_sz);
+
+  fChain->SetBranchAddress("mehtool_closestclusterX_pos", mehtool_closestclusterX_pos, &b_mehtool_closestclusterX_pos) ;
+  fChain->SetBranchAddress("mehtool_closestclusterU_pos", mehtool_closestclusterU_pos, &b_mehtool_closestclusterU_pos) ;
+  fChain->SetBranchAddress("mehtool_closestclusterV_pos", mehtool_closestclusterV_pos, &b_mehtool_closestclusterV_pos) ;
+
+  fChain->SetBranchAddress("mehtool_closestclusterX_pos_sz", &mehtool_closestclusterX_pos_sz, &b_mehtool_closestclusterX_pos_sz);
+  fChain->SetBranchAddress("mehtool_closestclusterU_pos_sz", &mehtool_closestclusterU_pos_sz, &b_mehtool_closestclusterU_pos_sz);
+  fChain->SetBranchAddress("mehtool_closestclusterV_pos_sz", &mehtool_closestclusterV_pos_sz, &b_mehtool_closestclusterV_pos_sz);
 
   fChain->SetBranchAddress("mehtool_michel_maxmeandiff", mehtool_michel_maxmeandiff, &b_mehtool_michel_maxmeandiff);
   fChain->SetBranchAddress("mehtool_michel_maxmeandiff_sz", &mehtool_michel_maxmeandiff_sz, &b_mehtool_michel_maxmeandiff_sz);

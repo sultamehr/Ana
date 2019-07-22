@@ -577,6 +577,7 @@ StatusCode CCQENu::initialize() {
 
     declareContainerDoubleEventBranch("mehtool_michel_maxmeandiff");
     declareContainerIntEventBranch("mehtool_istrueMichel");
+    declareContainerDoubleEventBranch("mehtool_michel_allmichelenergy");
 
 
 
@@ -743,7 +744,7 @@ StatusCode CCQENu::initialize() {
 //=============================================================================
 StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenMinInteraction* truth ) const {
 
-  info() << "Entering CCQENu::reconstructEvent() now ....." << endmsg;
+  debug() << "Entering CCQENu::reconstructEvent() now ....." << endmsg;
   StatusCode sc;
 
   if( getDAQHeader()->isMCTrigger() ) {
@@ -1115,21 +1116,21 @@ StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenM
   //! Create Particles and get hadronProngs
   //--------------------------------------------
   if( !createParticles( event, hadronProngs ) )
-    info()<<"Could not create Particles"<<endmsg;
+    debug()<<"Could not create Particles"<<endmsg;
 
   //---------------------------------------------------
   //! Look and tag michels
   //---------------------------------------------------
   bool hasMichels = tagMichels( event, truth );
   event->filtertaglist()->setOrAddFilterTag("hasNoMichelElectrons", !hasMichels );
-  verbose() << "Finished tagging Michels " << endmsg;
+  debug() << "Finished tagging Michels " << endmsg;
 
   //---------------------------------------------------
   //! Look and Tag with the ImprovedMichelTool
   //---------------------------------------------------
   bool hasImprovedMichels = ImprovedtagMichels( event, truth );
   event->filtertaglist()->setOrAddFilterTag("hasNoImprovedMichelElectrons", !hasImprovedMichels );
-  verbose() << "Finished tagging Improved Michels " << endmsg;
+  debug() << "Finished tagging Improved Michels " << endmsg;
   //---------------------------------------------------
   //! Let's count vertex types
   //---------------------------------------------------
@@ -1242,7 +1243,7 @@ StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenM
   //! Now, let's look for the most energetic proton...
   //----------------------------------------------------------------
   std::cout << "On to protons " << std::endl;
-  info()<<"Looking for a proton"<<endmsg;
+  debug()<<"Looking for a proton"<<endmsg;
   Minerva::ProngVect secondaryProtonProngs;
   SmartRef<Minerva::Prong> protonProng;
   SmartRef<Minerva::Particle> protonPart;
@@ -1251,7 +1252,7 @@ StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenM
   event->filtertaglist()->setOrAddFilterTag("hasProton", hasProton );
   event->setIntData("has_proton",hasProton);
   if( hasProton ) {
-    info()<<"A proton was found"<<endmsg;
+    debug()<<"A proton was found"<<endmsg;
     counter("has_Proton")+=1;
     if( truth ) tagProtonProngTruth( event, protonProng );
   }
@@ -1324,7 +1325,7 @@ StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenM
   } //End of if condition for hasProton
 
   if( secondaryProtonProngs.size()>0 ) {
-    info() << "Secondary proton(s) found" << endmsg;
+    debug() << "Secondary proton(s) found" << endmsg;
     for( ProngVect::iterator secProtonProng = secondaryProtonProngs.begin(); secProtonProng != secondaryProtonProngs.end(); ++secProtonProng ) {
       bool foundClusters = false;
       double max_cluster_distance = -9999.;
@@ -1408,7 +1409,7 @@ StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenM
 								      m_maxSeparationBlobVertex, newVtxBlobProngs );
 
   } else {
-    info() << "You have not specified a preference for making VtxBlobProngs, please specify one if you would like Vertex Blob Prongs !" << endmsg;
+    debug() << "You have not specified a preference for making VtxBlobProngs, please specify one if you would like Vertex Blob Prongs !" << endmsg;
   }
 
   if( sc.isFailure() ) return sc;
@@ -1871,7 +1872,7 @@ StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenM
   //---------------------------------------------------
   sc = addInteractionHyp( event, nuInt );
 
-  info() << "Exiting CCQENu::reconstructEvent() now ....." << endmsg;
+  debug() << "Exiting CCQENu::reconstructEvent() now ....." << endmsg;
 
   return sc;
 } //End of reconstructEvent( )
@@ -1882,7 +1883,7 @@ StatusCode CCQENu::reconstructEvent( Minerva::PhysicsEvent *event, Minerva::GenM
 //=============================================================================
 StatusCode CCQENu::interpretEvent( const Minerva::PhysicsEvent *event, const Minerva::GenMinInteraction* truth, std::vector<Minerva::NeutrinoInt*>& nuInt ) const {
 
-  info() << "Entering CCQENu::interpretEvent() now ....." << endmsg;
+  debug() << "Entering CCQENu::interpretEvent() now ....." << endmsg;
   if( truth ){
     debug() << "This event has a matched MC interaction" << endmsg;
   }
@@ -2293,7 +2294,7 @@ StatusCode CCQENu::interpretEvent( const Minerva::PhysicsEvent *event, const Min
   //! Fill the systematic shifts. See SystematicShiftsExtensions.cc.
   fillSystematicShiftsBranches( ccqeHyp, event );
 
-  info() << "Exiting CCQENu::interpretEvent() now ....." << endmsg;
+  debug() << "Exiting CCQENu::interpretEvent() now ....." << endmsg;
 
   return StatusCode::SUCCESS;
 } //End of interpretEvent( )
@@ -2321,7 +2322,7 @@ StatusCode CCQENu::finalize() {
 //===================================================================================================================
 bool CCQENu::truthIsPlausible( const Minerva::PhysicsEvent *physEvent ) const {
 
-  info() << "Entering truthIsPlausible( ) now ..... " << endmsg;
+  debug() << "Entering truthIsPlausible( ) now ..... " << endmsg;
 
   if( NULL == physEvent ) {
     debug() << "Physics Event is a NULL pointer - no sense in proceeding !" << endmsg;
@@ -2420,7 +2421,7 @@ bool CCQENu::truthIsPlausible( const Minerva::PhysicsEvent *physEvent ) const {
 
   } //End of condition m_useMuonIsPlausible
 
-  info() << "Exiting truthIsPlausible( ) now ..... " << endmsg;
+  debug() << "Exiting truthIsPlausible( ) now ..... " << endmsg;
   return true;
 
 } //End of truthIsPlausible( )
@@ -2832,6 +2833,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
     //event->setIntData("has_n_vertex_points", vertices.size()-1);
     warning()<<"Loking for Improved michels in " << vertices.size()-1<<" vertex points" <<endmsg;
 
+    debug() << "Initiate set of containers for michel tool" << endmsg;
     std::vector<int> improved_michel_vertex_type;
     std::vector<int> improved_michel_in_vertex_point;
 
@@ -2906,8 +2908,11 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
     std::vector<double> michel_true_time;
     //std::vector<int> michel_truematch;
 
+    debug() << "Get muon time" << endmsg;
     double muonTime = m_recoObjTimeTool->trackVertexTime(muonProng->minervaTracks()[0]);
     const double max_distance = 300.0; //in mm
+
+    debug() << "Finding Michel in Improved tool" << endmsg;
 
     //-- look for the Improved Michel
     //while( improved_michel ) {
@@ -2925,6 +2930,8 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
      //also since I am only looking at fitted michels right now, we have 3D information on the michel with EndPoint1 and EndPoint2
      int nmichels = m_improvedmichelTool->GetMichelCount();
+
+     debug() << "Finding Unused clusters" << endmsg;
 
      SmartRefVector<Minerva::IDCluster> unusedclusters = event->select<Minerva::IDCluster>("Unused", "!LowActivity&!XTalkCandidate");
 
@@ -3003,6 +3010,8 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
      std::vector<int> mehtool_istrueMichelvec;
 
+     std::vector<double> mehtool_michel_allmichelenergyvec;
+
 
      std::cout <<"Looping over all " << nmichels <<" michels" << std::endl;
 
@@ -3015,8 +3024,11 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
      for (int imichel = 0; imichel < nmichels; imichel++)
      {
+       double michelenergy = m_improvedmichelTool->GetMichelCalorimetricEnergy(imichel);
+       mehtool_michel_allmichelenergyvec.push_back(michelenergy);
+
        int fitpass = m_improvedmichelTool->GetMichelFitPass(imichel);
-       if ( fitpass == 1) continue; //Only look at fitted Michels in the event
+       if ( fitpass == 0) continue; //Only look at fitted Michels in the event
 
        std::cout <<"Skipped UnFitted Michels" << std::endl;
 
@@ -3045,8 +3057,6 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        double michelZ2 = m_improvedmichelTool->GetMichelEndpointZ2(imichel);
 
        double micheltime = m_improvedmichelTool->GetMichelTime(imichel);
-
-       double michelenergy = m_improvedmichelTool->GetMichelCalorimetricEnergy(imichel);
 
        std::vector<double> zpositions_michclus;
 
@@ -3168,10 +3178,10 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        SmartRefVector<Minerva::IDCluster> closestuclusters;
        SmartRefVector<Minerva::IDCluster> closestvclusters;
 
-       //std::cout << "MICHEL TIME IS " << micheltime << " ns " << " \n" << std::endl;
-       //std::cout << "MICHEL END1 IS " << michelX1 << " X, " << michelU1 << " U, " << michelV1 << "V " << michelZ1 << "Z \n" << //std::endl;
+       //std::cout << "MICHEL TIME IS " << micheltime << " ns " << " << std::endl;
+       //std::cout << "MICHEL END1 IS " << michelX1 << " X, " << michelU1 << " U, " << michelV1 << "V " << michelZ1 << "Z " << //std::endl;
 
-       //std::cout << "MICHEL END2 IS " << michelX2 << " X, " << michelU2 << " U, " << michelV2 << "V " << michelZ2 << "Z \n" << std::endl;
+       //std::cout << "MICHEL END2 IS " << michelX2 << " X, " << michelU2 << " U, " << michelV2 << "V " << michelZ2 << "Z" << std::endl;
 
 
       std::cout << "MICHEL TIME IS " << micheltime << " ns and Michel energy " <<  michelenergy  << " \n" << std::endl;
@@ -3195,14 +3205,16 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
          //std::cout << "CLUSTER Time " << clustime << " CLUSTER Position " << (*iclus)->position() << std::endl;
 
 
+         //This is transverse distance - View distnace
+
          double viewdistance1 = m_mathTool->viewDistance((*iclus), end1 );
          double viewdistance2 = m_mathTool->viewDistance((*iclus), end2 );
 
-
+         std::cout << "Printing out distance between cluster and michel dist1: " << viewdistance1 << " dist2: " << viewdistance2 << std::endl;
 
          if (abs(viewdistance1) < abs(viewdistance2)) {
            double zdist = abs(end1.Z() - clusterz);
-           if (zdist > 300.) continue;
+           if (zdist > 100.) continue;
             if( cview == Minerva::IDCluster::X ) {
               xdistances.push_back(viewdistance1);
 
@@ -3217,7 +3229,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
          if (abs(viewdistance1) > abs(viewdistance2)) {
            double zdist = abs(end2.Z() - clusterz);
-           if (zdist > 300.) continue;
+           if (zdist > 40.) continue;
            if( cview == Minerva::IDCluster::X ) {
              xdistances.push_back(viewdistance2);
 
@@ -3229,38 +3241,40 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
            }
           }
 
-             double minx = 99999.;
-             double minu = 99999.;
-             double minv = 99999.;
 
-             for (unsigned int i = 0; i < xdistances.size(); i++)
-             {
-               if (abs(xdistances[i]) < abs(minx))
-               minx = xdistances[i];
-             }
-             for (unsigned int i = 0; i < udistances.size(); i++)
-             {
-               if (abs(udistances[i]) < abs(minu))
-               minu = udistances[i];
-             }
-             for (unsigned int i = 0; i < vdistances.size(); i++)
-             {
-               if (abs(vdistances[i]) < abs(minv))
-               minv = vdistances[i];
-             }
+           double minx = -99999.9;
+           double minu = -99999.9;
+           double minv = -99999.9;
+
+           for (unsigned int i = 0; i < xdistances.size(); i++)
+           {
+            if (abs(xdistances[i]) < abs(minx))
+            minx = abs(xdistances[i]);
+           }
+           for (unsigned int i = 0; i < udistances.size(); i++)
+           {
+            if (abs(udistances[i]) < abs(minu))
+            minu = abs(udistances[i]);
+           }
+           for (unsigned int i = 0; i < vdistances.size(); i++)
+           {
+            if (abs(vdistances[i]) < abs(minv))
+            minv = abs(vdistances[i]);
+           }
 
 
-             closestxdist = minx;
-             closestudist = minu;
-             closestvdist = minv;
+           closestxdist = minx;
+           closestudist = minu;
+           closestvdist = minv;
+
+           std::cout << "CLOSEST X DISTANCE IS " << closestxdist << std::endl;
+           std::cout << "CLOSEST U DISTANCE IS " << closestudist << std::endl;
+           std::cout << "CLOSEST V DISTANCE IS " << closestvdist << std::endl;
+
 
 
        } // After looping over all clusters, I want to get the cluster in X and U and V that is closest to the michel. And then I want to see if there close to each other in Z. Then I can do 1 view, 2view, or 3 view matching to clusters based on how they are correlated in Z.
 
-
-       std::cout << "CLOSEST X DISTANCE IS " << closestxdist << std::endl;
-       std::cout << "CLOSEST U DISTANCE IS " << closestudist << std::endl;
-       std::cout << "CLOSEST V DISTANCE IS " << closestvdist << std::endl;
 
        // Now I take the closest distance values and redo the matching and save my closest clusters in a vector!
 
@@ -3293,13 +3307,15 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
          std::cout << "Line 3188 " <<  std::endl;
          if (abs(viewdistance1) < abs(viewdistance2))
          {
+           std::cout << "Checking to see if vewdist1<viewdist2" << std::endl;
            double zdist = abs(end1.Z() - clusterz);
            std::cout << "Line 3192 " <<  std::endl;
-           if (zdist > 300.){ continue;}
-           ++nclustermatch;
+           if (zdist > 100.) continue;
+           std::cout << "Now checking to see if ID Cluster is X view" << std::endl;
            if( cview == Minerva::IDCluster::X ) {
-             std::cout << "Line 3196 " <<  std::endl;
-             if ((abs(viewdistance1) - abs(closestxdist)) < 5.)
+             std::cout << "ID Cluster is X view! " <<  std::endl;
+             double closedist = abs(viewdistance1) - abs(closestxdist);
+             if (closedist < 5.)
              { closestxclusters.push_back(*iclus);
              std::cout << "CLOSEST DISTANCE TO MICHEL END POINT 1 in X " << viewdistance1 <<  std::endl;
              std::cout << "CLOSEST CLUSTER HAS POSTION X " << (*iclus)->position() <<  std::endl;
@@ -3318,7 +3334,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
            }
            } else if( cview == Minerva::IDCluster::U ) {
-             std::cout << "Line 3213 " <<  std::endl;
+             std::cout << "ID Cluster is U View " <<  std::endl;
 
              if ((abs(viewdistance1) - abs(closestudist)) < 5.)
              { closestuclusters.push_back(*iclus);
@@ -3337,7 +3353,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
            }
 
            } else if( cview == Minerva::IDCluster::V ) {
-             std::cout << "Line 3230 " <<  std::endl;
+             std::cout << "ID Cluster is V View! " <<  std::endl;
 
              if ((abs(viewdistance1) - abs(closestvdist)) < 5.)
              { closestvclusters.push_back(*iclus);
@@ -3354,21 +3370,17 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
              mehtool_closestclusterV_Z_posvec.push_back(clusterz);
 
             }
-           }
-           else{
-             //Fill with garbage values so you can easily loop over the correct values in the macro.
-             continue;
-           }
-
+          } //end of vview
          }
+
+
 
            //Now we need to do it for endpoint2 being closer:
 
            if (abs(viewdistance1) > abs(viewdistance2))
            {
              double zdist = abs(end2.Z() - clusterz);
-             if (zdist > 300.) continue;
-             ++nclustermatch;
+             if (zdist > 100.) continue;
              if( cview == Minerva::IDCluster::X ) {
                std::cout << "Line 3262 " <<  std::endl;
 
@@ -3427,13 +3439,14 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
              }
 
              }
-             else{
-               continue;
-             }
+           }// end of abs(viewdistance1) > abs(viewdistance2)
 
+           std::cout << "End of looping over all unused clusters!" << std::endl;
              int nclusx = closestxclusters.size();
              int nclusu = closestxclusters.size();
              int nclusv = closestxclusters.size();
+
+
 
 
              if (nclusx > 0 || nclusu > 0 || nclusv > 0)
@@ -3443,11 +3456,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
              }
 
-            }
-
-         } // End of Cluster matching loop. At the end of this loop, we should have three closest untracked clusters to the michel!
-
-
+            }// End of Cluster matching loop. At the end of this loop, we should have three closest untracked clusters to the michel!
 
 
        //From here, we can get the information we want from the clusters!
@@ -3492,31 +3501,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        mehtool_closestclusterU_ncluszvec.push_back(nclusu);
        mehtool_nclustermatchpermichel.push_back(nclustermatch);
 
-       for(SmartRefVector<Minerva::IDCluster>::iterator iclus = matchedclusters.begin(); iclus != matchedclusters.end(); iclus++)
-       {
-
-         double zpos1 = (*iclus)->z();
-         std::vector<double> zdiffclus;
-
-         for(SmartRefVector<Minerva::IDCluster>::iterator jclus = matchedclusters.begin()+1; jclus != matchedclusters.end(); jclus++)
-
-         {
-           double zpos2 = (*jclus)->z();
-
-           double zdiff = abs(zpos2 - zpos1);
-
-           zdiffclus.push_back(zdiff);
-
-         }
-
-         //double zdiffminimum = std::min_element(zdiffclus.begin(), zdiffclus.end());
-
-         //if (zdiffminimum < 40.)
-         //{
-        //   picandidateclusters.push_back(*iclus);
-         //}
-
-       }
+       /*
 
        for (SmartRefVector<Minerva::IDCluster>::iterator pclus = picandidateclusters.begin()+1; pclus != matchedclusters.end(); pclus++)
        {
@@ -3531,7 +3516,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
 
        }
-
+       */
 
        SmartRefVector<Minerva::IDCluster> Xclustersmichel = m_improvedmichelTool->GetMichelXClusters(imichel);
        //std::cout << "Line 3392" << std::endl;
@@ -3549,6 +3534,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        int michelnclusu = Uclustersmichel.size();
        int michelnclusv = Vclustersmichel.size();
 
+       /*
 
        for (int i = 0; i < mehtool_michel_clusterindexvec.size(); ++i)
        {
@@ -3556,7 +3542,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
          {
            if (mehtool_michel_clusterindexvec[i] == mehtool_michel_clusterindexvec[j])
            {
-             std::cout << "Michel # " << imichel << " is second matched with a unused cluster " << i << " - " << j << std::endl;
+             std::cout << "Michel # " << imichel << " is double matched with a unused cluster " << i << " - " << j << std::endl;
 
              mehtool_duplicate_michelindexvec.push_back(imichel);
 
@@ -3565,6 +3551,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
            }
          }
        }
+       */
 
        if (nclusx >= 1 || nclusu >= 1 || nclusv >= 1)
        {
@@ -3609,6 +3596,8 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
 
      event->setContainerIntData("mehtool_istrueMichel", mehtool_istrueMichelvec);
+
+     event->setContainerDoubleData("mehtool_michel_allmichelenergy", mehtool_michel_allmichelenergyvec);
 
      event->setIntData("mehtool_nmichelsmatch", nmichelmatch);
      event->setContainerIntData("mehtool_duplicate_michelindex", mehtool_duplicate_michelindexvec);
