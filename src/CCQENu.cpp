@@ -2935,6 +2935,8 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
      SmartRefVector<Minerva::IDCluster> unusedclusters = event->select<Minerva::IDCluster>("Unused", "!LowActivity&!XTalkCandidate");
 
+     double muontime = m_recoObjTimeTool->trackVertexTime(muonProng->minervaTracks()[0]);
+
      std::vector<double> mehtool_closestclusterX_distancevec;
      std::vector<double> mehtool_closestclusterU_distancevec;
      std::vector<double> mehtool_closestclusterV_distancevec;
@@ -3196,6 +3198,10 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
          Minerva::IDCluster::View cview = (*iclus)->view();
 
          if (clustime > micheltime) continue; // Only want clusters that are before michel in time
+
+         double muontimediff = abs(muontime - clustime);
+         if (muontimediff > 0.5) continue; // Only get clusters associated with primary muon slice..
+
          double clusterenergy = (*iclus)->energy();
 
          double clusterz = (*iclus)->z();
@@ -3229,7 +3235,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
          if (abs(viewdistance1) > abs(viewdistance2)) {
            double zdist = abs(end2.Z() - clusterz);
-           if (zdist > 40.) continue;
+           if (zdist > 100.) continue;
            if( cview == Minerva::IDCluster::X ) {
              xdistances.push_back(viewdistance2);
 
@@ -3314,7 +3320,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
            std::cout << "Now checking to see if ID Cluster is X view" << std::endl;
            if( cview == Minerva::IDCluster::X ) {
              std::cout << "ID Cluster is X view! " <<  std::endl;
-             double closedist = abs(viewdistance1) - abs(closestxdist);
+             double closedist = abs(abs(viewdistance1) - abs(closestxdist));
              if (closedist < 5.)
              { closestxclusters.push_back(*iclus);
              std::cout << "CLOSEST DISTANCE TO MICHEL END POINT 1 in X " << viewdistance1 <<  std::endl;
@@ -3336,7 +3342,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
            } else if( cview == Minerva::IDCluster::U ) {
              std::cout << "ID Cluster is U View " <<  std::endl;
 
-             if ((abs(viewdistance1) - abs(closestudist)) < 5.)
+             if (abs(abs(viewdistance1) - abs(closestudist)) < 5.)
              { closestuclusters.push_back(*iclus);
              std::cout << "CLOSEST DISTANCE TO MICHEL END POINT 1 in U " << viewdistance1 <<  std::endl;
              std::cout << "CLOSEST CLUSTER HAS POSTION U " << (*iclus)->position() <<  std::endl;
@@ -3355,7 +3361,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
            } else if( cview == Minerva::IDCluster::V ) {
              std::cout << "ID Cluster is V View! " <<  std::endl;
 
-             if ((abs(viewdistance1) - abs(closestvdist)) < 5.)
+             if (abs(abs(viewdistance1) - abs(closestvdist)) < 5.)
              { closestvclusters.push_back(*iclus);
              std::cout << "CLOSEST DISTANCE TO MICHEL END POINT 1 in V " << viewdistance1 <<  std::endl;
              std::cout << "CLOSEST CLUSTER HAS POSTION V " << (*iclus)->position() <<  std::endl;
@@ -3377,14 +3383,14 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
            //Now we need to do it for endpoint2 being closer:
 
-           if (abs(viewdistance1) > abs(viewdistance2))
+           if ((abs(viewdistance1) > abs(viewdistance2)))
            {
              double zdist = abs(end2.Z() - clusterz);
              if (zdist > 100.) continue;
              if( cview == Minerva::IDCluster::X ) {
                std::cout << "Line 3262 " <<  std::endl;
 
-               if ((abs(viewdistance2) - abs(closestxdist)) < 5.)
+               if (abs(abs(viewdistance2) - abs(closestxdist)) < 5.)
                { closestxclusters.push_back(*iclus);
                std::cout << "CLOSEST DISTANCE TO MICHEL END POINT 2 in X " << viewdistance2 <<  std::endl;
                std::cout << "CLOSEST CLUSTER HAS POSTION X " << (*iclus)->position() <<  std::endl;
@@ -3404,7 +3410,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
              } else if( cview == Minerva::IDCluster::U ) {
                std::cout << "Line 3278 " <<  std::endl;
 
-               if ((abs(viewdistance2) - abs(closestudist)) < 5.)
+               if (abs(abs(viewdistance2) - abs(closestudist)) < 5.)
                { closestuclusters.push_back(*iclus);
                std::cout << "CLOSEST DISTANCE TO MICHEL END POINT 2 in U " << viewdistance2 <<  std::endl;
                std::cout << "CLOSEST CLUSTER HAS POSTION U " << (*iclus)->position() <<  std::endl;
@@ -3422,7 +3428,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
              } else if( cview == Minerva::IDCluster::V ) {
                std::cout << "Line 3296 " <<  std::endl;
 
-               if ((abs(viewdistance2) - abs(closestvdist)) < 5.)
+               if (abs(abs(viewdistance2) - abs(closestvdist)) < 5.)
                { closestvclusters.push_back(*iclus);
                std::cout << "CLOSEST DISTANCE TO MICHEL END POINT 2 in V " << viewdistance2 <<  std::endl;
                std::cout << "CLOSEST CLUSTER HAS POSTION V " << (*iclus)->position() <<  std::endl;
