@@ -579,6 +579,23 @@ StatusCode CCQENu::initialize() {
     declareContainerIntEventBranch("mehtool_istrueMichel");
     declareContainerDoubleEventBranch("mehtool_michel_allmichelenergy");
 
+    declareContainerDoubleEventBranch("mehtool_michel_fitPass");
+
+
+    //Add Truth Michel information
+    //-- Variables for Michel truth matching
+    declareContainerIntEventBranch( "mehtool_primary_particle_trackID");
+    declareContainerIntEventBranch("mehtool_true_michel_pdg");
+    declareContainerDoubleEventBranch("mehtool_true_michel_x1vec");
+    declareContainerDoubleEventBranch("mehtool_true_michel_y1vec");
+    declareContainerDoubleEventBranch("mehtool_true_michel_z1vec");
+    declareContainerDoubleEventBranch("mehtool_true_michel_x2vec");
+    declareContainerDoubleEventBranch("mehtool_true_michel_y2vec");
+    declareContainerDoubleEventBranch("mehtool_true_michel_z2vec");
+    declareContainerIntEventBranch( "mehtool_michel_parent_PDG");
+    declareContainerIntEventBranch( "mehtool_michel_from_decay");
+    declareContainerIntEventBranch("mehtool_michel_parent_trackID");
+    declareContainerDoubleEventBranch("mehtool_michel_truetime");
 
 
   //Add Truth Michel information
@@ -3014,6 +3031,14 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
      std::vector<double> mehtool_michel_allmichelenergyvec;
 
+     std::vector<int> mehtool_parent_PDG;
+     std::vector<int> mehtool_michel_PDG;
+     std::vector<int> mehtool_michel_from_decay;
+     std::vector<double> mehtool_michel_truetime;
+
+     std::vector<int> mehtool_michel_fitpass;
+
+
 
      std::cout <<"Looping over all " << nmichels <<" michels" << std::endl;
 
@@ -3030,9 +3055,12 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        mehtool_michel_allmichelenergyvec.push_back(michelenergy);
 
        int fitpass = m_improvedmichelTool->GetMichelFitPass(imichel);
-       if ( fitpass == 0) continue; //Only look at fitted Michels in the event
+       //if ( fitpass == 0) continue; //Only look at fitted Michels in the event
 
-       std::cout <<"Skipped UnFitted Michels" << std::endl;
+
+       mehtool_michel_fitpass.push_back(fitpass);
+
+       //std::cout <<"Skipped UnFitted Michels" << std::endl;
 
 
        int michel_view  = m_improvedmichelTool->GetMichelViewCode(imichel);
@@ -3109,6 +3137,11 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
                {
                  //std::cout << "Line 3143" << std::endl;
                  istrueMichel = 1;
+                 mehtool_michel_from_decay.push_back(int(true));
+                 mehtool_michel_PDG.push_back(trueMichel->GetPDGCode());
+                 mehtool_parent_PDG.push_back(MichelParent->GetPDGCode());
+                 mehtool_michel_truetime.push_back(trueMichel->GetInitialPosition().T());
+
                  break;
                }//If true Michel
 
@@ -3600,8 +3633,12 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
 
 
-
+     event->setContainerIntData("mehtool_michel_fitpass", mehtool_michel_fitpass);
      event->setContainerIntData("mehtool_istrueMichel", mehtool_istrueMichelvec);
+     event->setContainerIntData("mehtool_michel_from_decay", mehtool_michel_from_decay);
+     event->setContainerIntData("mehtool_true_michel_pdg", mehtool_michel_PDG);
+     event->setContainerIntData("mehtool_michel_parent_PDG",  mehtool_parent_PDG);
+     event->setContainerDoubleData("mehtool_michel_truetime", mehtool_michel_truetime);
 
      event->setContainerDoubleData("mehtool_michel_allmichelenergy", mehtool_michel_allmichelenergyvec);
 

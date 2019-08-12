@@ -1,4 +1,4 @@
-#Mon Jul 29 05:08:57 2019"""Automatically generated. DO NOT EDIT please"""
+#Mon Aug 12 17:20:10 2019"""Automatically generated. DO NOT EDIT please"""
 from GaudiKernel.Proxy.Configurable import *
 
 class CCQENuRecoUtils( ConfigurableAlgTool ) :

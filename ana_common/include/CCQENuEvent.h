@@ -488,6 +488,15 @@ public :
 
 
 
+   Double_t mehtool_michel_allmichelenergy[200];
+   Int_t    mehtool_michel_allmichelenergy_sz;
+
+   Int_t    mehtool_michel_from_decay[200];
+   Double_t mehtool_michel_from_decay_sz;
+
+   Int_t    mehtool_true_michel_pdg[200];
+   Double_t mehtool_true_michel_pdg_sz;
+
 
 
 
@@ -513,7 +522,10 @@ public :
    Int_t           michel_parent_PDG;
    Int_t           michel_parent_trackID;
 
-
+  //Int_t           mehtool_michel_from_decay[200];
+  //Int_t           mehtool_true_michel_pdg[200];
+  //Int_t           mehtool_michel_parent_PDG[200];
+  //Double_t        mehtool_michel_truetime[200];
 
 
    Int_t           muon_thetaX_allNodes_sz;
@@ -1411,6 +1423,17 @@ public :
 
    TBranch *b_mehtool_istrueMichel;
    TBranch *b_mehtool_istrueMichel_sz;
+
+   TBranch *b_mehtool_michel_allmichelenergy;
+   TBranch *b_mehtool_michel_allmichelenergy_sz;
+
+   TBranch *b_mehtool_michel_from_decay;
+   TBranch *b_mehtool_michel_from_decay_sz;
+
+   TBranch *b_mehtool_true_michel_pdg;
+   TBranch *b_mehtool_true_michel_pdg_sz;
+
+
 
    // -------------------- True Matched Michel Variables
 
@@ -2424,7 +2447,14 @@ void CCQENU_ANA::CCQENuEvent::Init(TTree *tree, bool IsData)
   fChain->SetBranchAddress("mehtool_istrueMichel", mehtool_istrueMichel, &b_mehtool_istrueMichel);
   fChain->SetBranchAddress("mehtool_istrueMichel_sz", &mehtool_istrueMichel_sz, &b_mehtool_istrueMichel_sz);
 
+  fChain->SetBranchAddress("mehtool_michel_allmichelenergy", mehtool_michel_allmichelenergy, &b_mehtool_michel_allmichelenergy);
+  fChain->SetBranchAddress("mehtool_michel_allmichelenergy_sz", &mehtool_michel_allmichelenergy_sz, &b_mehtool_michel_allmichelenergy_sz);
 
+  fChain->SetBranchAddress("mehtool_michel_from_decay", mehtool_michel_from_decay, &b_mehtool_michel_from_decay);
+  fChain->SetBranchAddress("mehtool_michel_from_decay_sz", &mehtool_michel_from_decay_sz, &b_mehtool_michel_from_decay_sz);
+
+  fChain->SetBranchAddress("mehtool_true_michel_pdg", mehtool_true_michel_pdg, &b_mehtool_true_michel_pdg);
+  fChain->SetBranchAddress("mehtool_true_michel_pdg_sz", &mehtool_true_michel_pdg_sz, &b_mehtool_true_michel_pdg_sz);
 
    fChain->SetBranchAddress("muon_thetaX_allNodes_sz", &muon_thetaX_allNodes_sz, &b_muon_thetaX_allNodes_sz);
    fChain->SetBranchAddress("muon_thetaX_allNodes", muon_thetaX_allNodes, &b_muon_thetaX_allNodes);
