@@ -561,6 +561,20 @@ StatusCode CCQENu::initialize() {
     declareContainerDoubleEventBranch("mehtool_closestclusterV_clustime");
     declareContainerDoubleEventBranch("mehtool_closestclusterU_clustime");
 
+    declareContainerDoubleEventBranch("mehtool_matchedclusters_datafraction");
+    declareContainerIntEventBranch( "mehtool_pion_primary_particle_trackID");
+    declareContainerIntEventBranch("mehtool_true_pion_pdg");
+    declareContainerDoubleEventBranch("mehtool_true_pion_x1vec");
+    declareContainerDoubleEventBranch("mehtool_true_pion_y1vec");
+    declareContainerDoubleEventBranch("mehtool_true_pion_z1vec");
+    declareContainerDoubleEventBranch("mehtool_true_pion_x2vec");
+    declareContainerDoubleEventBranch("mehtool_true_pion_y2vec");
+    declareContainerDoubleEventBranch("mehtool_true_pion_z2vec");
+    declareContainerIntEventBranch( "mehtool_pion_parent_PDG");
+    declareContainerIntEventBranch( "mehtool_pion_from_decay");
+    declareContainerIntEventBranch("mehtool_pion_parent_trackID");
+    declareContainerDoubleEventBranch("mehtool_pion_truetime");
+
     declareContainerDoubleEventBranch("mehtool_michel_time");
     declareContainerDoubleEventBranch("mehtool_michel_energy");
     declareContainerIntEventBranch("mehtool_michel_Xclusters");
@@ -579,7 +593,7 @@ StatusCode CCQENu::initialize() {
     declareContainerIntEventBranch("mehtool_istrueMichel");
     declareContainerDoubleEventBranch("mehtool_michel_allmichelenergy");
 
-    declareContainerDoubleEventBranch("mehtool_michel_fitPass");
+    declareContainerIntEventBranch("mehtool_michel_fitPass");
 
 
     //Add Truth Michel information
@@ -2950,7 +2964,17 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
      debug() << "Finding Unused clusters" << endmsg;
 
-     SmartRefVector<Minerva::IDCluster> unusedclusters = event->select<Minerva::IDCluster>("Unused", "!LowActivity&!XTalkCandidate");
+     SmartRefVector<Minerva::IDCluster> allclusters = event->select<Minerva::IDCluster>("Used:Unused", "!LowActivity&!XTalkCandidate");
+     SmartRefVector<Minerva::IDCluster> unusedclusters;
+
+     const Minerva::IDClusterVect& muonClustersID = muonProng->getAllIDClusters();
+     Minerva::IDClusterVect::iterator i_allClustersID = allclusters.begin();
+
+     for (; i_allClustersID != allclusters.end(); ++i_allClustersID)
+     {
+       if( std::find( muonClustersID.begin(), muonClustersID.end(), (*i_allClustersID) ) != muonClustersID.end() ) continue;
+       unusedclusters.push_back(*i_allClustersID);
+     }
 
      double muontime = m_recoObjTimeTool->trackVertexTime(muonProng->minervaTracks()[0]);
 
@@ -3037,6 +3061,20 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
      std::vector<double> mehtool_michel_truetime;
 
      std::vector<int> mehtool_michel_fitpass;
+     std::vector<double> mehtool_matchedclus_fraction;
+
+     std::vector<int>    mehtool_pion_primary_particle_trackID;
+     std::vector<int>    mehtool_pion_pdg                      ;
+     std::vector<double> mehtool_true_pion_x1vec               ;
+     std::vector<double> mehtool_true_pion_y1vec               ;
+     std::vector<double> mehtool_true_pion_z1vec               ;
+     std::vector<double> mehtool_true_pion_x2vec               ;
+     std::vector<double> mehtool_true_pion_y2vec               ;
+     std::vector<double> mehtool_true_pion_z2vec               ;
+     std::vector<int>    mehtool_pion_parent_PDG               ;
+     std::vector<int>    mehtool_pion_from_decay               ;
+     std::vector<int>    mehtool_pion_parent_trackID           ;
+     std::vector<double> mehtool_pion_truetime                 ;
 
 
 
@@ -3503,7 +3541,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        //2. We want to get position, distance, slicenumber, energy, and views of these clusters
        //3. We want to also find out which end point the cluster is matched to.
 
-       SmartRefVector<Minerva::IDCluster> matchedclusters;
+       std::vector<const Minerva::IDCluster*> matchedclusters;
        SmartRefVector<Minerva::IDCluster> picandidateclusters;
 
        for (SmartRefVector<Minerva::IDCluster>::iterator iclus = closestxclusters.begin(); iclus != closestxclusters.end(); iclus++)
@@ -3511,6 +3549,7 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
          std::cout << "ClUSTER time (ns)" << (*iclus)->time() << " view " << (*iclus)->view() << " position " << (*iclus)->position() << " energy " << (*iclus)->energy() << "  === \n" << std::endl;
          matchedclusters.push_back(*iclus);
+
        }
 
        for (SmartRefVector<Minerva::IDCluster>::iterator iclus = closestuclusters.begin(); iclus != closestuclusters.end(); iclus++)
@@ -3531,6 +3570,76 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        mehtool_closestclusterU_ncluszvec.push_back(closestuclusters.size());
        mehtool_closestclusterV_ncluszvec.push_back(closestvclusters.size());
 
+
+       std::cout << "Getting Truth Pion info " << std::endl;
+       Minerva::TG4Trajectories* pioncantrajectories=NULL;
+
+       Minerva::TG4Trajectory* truePion = NULL;
+       const Minerva::TG4Trajectory* PionParent = NULL;
+       const Minerva::TG4Trajectory* PionPrimaryParent = NULL;
+       double pionfraction;
+       double pion_other_energy;
+
+
+       int istruePion = 0;
+
+       if (truth){
+         std::cout << "Getting Truth Pion Trajectories " << std::endl;
+         pioncantrajectories = get<Minerva::TG4Trajectories>( "MC/TG4Trajectories" );
+
+         std::cout << "Using Truth Matcher " << std::endl;
+
+         pionfraction = TruthMatcher->getDataFraction(matchedclusters);
+         std::cout << "Getting Data Fraction" << std::endl;
+
+       if(TruthMatcher->getDataFraction(matchedclusters) < 0.5) { // check if overlay
+         std::cout << "Getting trajectories using truth matcher" << std::endl;
+
+         StatusCode parent_sc = TruthMatcher->getTG4Trajectory(matchedclusters, PionParent, pionfraction, pion_other_energy); //find   TG4Trajectory that created the Michel leading the the Michel track
+
+         std::cout << "Got Trajectories now continueing if there is none" << std::endl;
+
+         if(!parent_sc) continue;
+
+         //use final position of Michel parent to get Michel trajectory
+         std::cout << "Looping over trajectories" << std::endl;
+
+         for(Minerva::TG4Trajectories::iterator it = pioncantrajectories->begin(); it != pioncantrajectories->end(); ++it) {
+           Minerva::TG4Trajectory * traject = *it;
+           std::cout << "Got Trajectory" << std::endl;
+
+
+           //           if(traject->GetInitialPosition() == MichelParent->GetFinalPosition()) {
+           if(traject->GetParentId() == PionParent->GetTrackId()){
+             if(abs(traject->GetPDGCode())==14) continue; //avoiding nu
+             truePion = traject;
+             //Check if the Michel came from a decay or some kind of scattering
+             if(truePion->GetProcessName().find("Decay") != std::string::npos)
+             {
+               //std::cout << "Line 3143" << std::endl;
+               if (abs(truePion->GetPDGCode()) == 211){
+                 istruePion = 1;
+               }
+               mehtool_matchedclus_fraction.push_back(pionfraction);
+               mehtool_pion_from_decay.push_back(int(true));
+               mehtool_pion_pdg.push_back(truePion->GetPDGCode());
+               mehtool_pion_parent_PDG.push_back(PionParent->GetPDGCode());
+               mehtool_pion_truetime.push_back(truePion->GetInitialPosition().T());
+
+               mehtool_true_pion_x1vec.push_back(truePion->GetInitialPosition().X());
+               mehtool_true_pion_y1vec.push_back(truePion->GetInitialPosition().Y());
+               mehtool_true_pion_z1vec.push_back(truePion->GetInitialPosition().Z());
+               mehtool_true_pion_x2vec.push_back(truePion->GetFinalPosition().X());
+               mehtool_true_pion_y2vec.push_back(truePion->GetFinalPosition().Y());
+               mehtool_true_pion_z2vec.push_back(truePion->GetFinalPosition().Z());
+
+               break;
+             }//If true Pion
+           } //Where Pion CAme from
+         } // For Pion Trajectory
+        } //Get Data Fraction
+      } //if truth
+
        int nclusx = closestxclusters.size();
        int nclusu = closestuclusters.size();
        int nclusv = closestvclusters.size();
@@ -3539,6 +3648,8 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
        mehtool_closestclusterX_ncluszvec.push_back(nclusx);
        mehtool_closestclusterU_ncluszvec.push_back(nclusu);
        mehtool_nclustermatchpermichel.push_back(nclustermatch);
+
+
 
        /*
 
@@ -3633,12 +3744,27 @@ bool CCQENu::ImprovedtagMichels(Minerva::PhysicsEvent* event, Minerva::GenMinInt
 
 
 
-     event->setContainerIntData("mehtool_michel_fitpass", mehtool_michel_fitpass);
+     event->setContainerIntData("mehtool_michel_fitPass", mehtool_michel_fitpass);
      event->setContainerIntData("mehtool_istrueMichel", mehtool_istrueMichelvec);
      event->setContainerIntData("mehtool_michel_from_decay", mehtool_michel_from_decay);
      event->setContainerIntData("mehtool_true_michel_pdg", mehtool_michel_PDG);
      event->setContainerIntData("mehtool_michel_parent_PDG",  mehtool_parent_PDG);
      event->setContainerDoubleData("mehtool_michel_truetime", mehtool_michel_truetime);
+
+     event->setContainerDoubleData("mehtool_matchedclusters_datafraction", mehtool_matchedclus_fraction);
+
+     event->setContainerIntData("mehtool_pion_primary_particle_trackID", mehtool_pion_primary_particle_trackID);
+     event->setContainerIntData("mehtool_true_pion_pdg"                , mehtool_pion_pdg                     );
+     event->setContainerDoubleData("mehtool_true_pion_x1vec"              , mehtool_true_pion_x1vec              );
+     event->setContainerDoubleData("mehtool_true_pion_y1vec"              , mehtool_true_pion_y1vec              );
+     event->setContainerDoubleData("mehtool_true_pion_z1vec"              , mehtool_true_pion_z1vec              );
+     event->setContainerDoubleData("mehtool_true_pion_x2vec"              , mehtool_true_pion_x2vec              );
+     event->setContainerDoubleData("mehtool_true_pion_y2vec"              , mehtool_true_pion_y2vec              );
+     event->setContainerDoubleData("mehtool_true_pion_z2vec"              , mehtool_true_pion_z2vec              );
+     event->setContainerIntData( "mehtool_pion_parent_PDG"             , mehtool_pion_parent_PDG              );
+     event->setContainerIntData( "mehtool_pion_from_decay"             , mehtool_pion_from_decay              );
+     event->setContainerIntData("mehtool_pion_parent_trackID"          , mehtool_pion_parent_trackID          );
+     event->setContainerDoubleData("mehtool_pion_truetime"                , mehtool_pion_truetime                );
 
      event->setContainerDoubleData("mehtool_michel_allmichelenergy", mehtool_michel_allmichelenergyvec);
 
