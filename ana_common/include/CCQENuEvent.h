@@ -499,39 +499,121 @@ public :
    Int_t    mehtool_true_michel_pdg[200];
    Double_t mehtool_true_michel_pdg_sz;
 
+   Int_t    mehtool_michel_parent_PDG[200];
+   Double_t mehtool_michel_parent_PDG_sz;
+   //Get truth Variables for x clusters
 
-   Double_t mehtool_matchedclusters_datafraction[200];
+   Double_t mehtool_x_matchedclusters_datafraction[200];
 
-   Int_t mehtool_pion_primary_particle_trackID[200];
+   Int_t mehtool_x_pion_primary_particle_trackID[200];
 
-   Int_t mehtool_true_pion_pdg[200];
+   Int_t mehtool_x_true_pion_pdg[200];
 
-   Double_t mehtool_true_pion_x1vec[200];
-   Int_t   mehtool_true_pion_x1vec_sz;
-   Double_t mehtool_true_pion_y1vec[200];
-   Int_t mehtool_true_pion_y1vec_sz;
-   Double_t mehtool_true_pion_z1vec[200];
-   Int_t mehtool_true_pion_z1vec_sz;
-   Double_t mehtool_true_pion_x2vec[200];
-   Int_t mehtool_true_pion_x2vec_sz;
-   Double_t mehtool_true_pion_y2vec[200];
-   Int_t mehtool_true_pion_y2vec_sz;
-   Double_t mehtool_true_pion_z2vec[200];
-   Int_t mehtool_true_pion_z2vec_sz;
+   Double_t mehtool_x_matchedclusters_datafraction_sz;
 
-   Int_t mehtool_pion_parent_PDG[200];
-   Int_t mehtool_pion_parent_PDG_sz;
-   Int_t mehtool_pion_from_decay[200];
-   Int_t mehtool_pion_from_decay_sz;
+   Int_t mehtool_x_pion_primary_particle_trackID_sz;
 
-   Int_t mehtool_pion_parent_trackID[200];
-   Int_t mehtool_pion_parent_trackID_sz;
+   Int_t mehtool_x_true_pion_pdg_sz;
 
+   Double_t mehtool_x_true_pion_x1vec[200];
+   Int_t   mehtool_x_true_pion_x1vec_sz;
+   Double_t mehtool_x_true_pion_y1vec[200];
+   Int_t mehtool_x_true_pion_y1vec_sz;
+   Double_t mehtool_x_true_pion_z1vec[200];
+   Int_t mehtool_x_true_pion_z1vec_sz;
+   Double_t mehtool_x_true_pion_x2vec[200];
+   Int_t mehtool_x_true_pion_x2vec_sz;
+   Double_t mehtool_x_true_pion_y2vec[200];
+   Int_t mehtool_x_true_pion_y2vec_sz;
+   Double_t mehtool_x_true_pion_z2vec[200];
+   Int_t mehtool_x_true_pion_z2vec_sz;
 
-   Double_t mehtool_pion_truetime[200];
-   Int_t mehtool_pion_truetime_sz;
+   Int_t mehtool_x_pion_parent_PDG[200];
+   Int_t mehtool_x_pion_parent_PDG_sz;
+   Int_t mehtool_x_pion_from_decay[200];
+   Int_t mehtool_x_pion_from_decay_sz;
 
+   Int_t mehtool_x_pion_parent_trackID[200];
+   Int_t mehtool_x_pion_parent_trackID_sz;
 
+   Double_t mehtool_x_pion_truetime[200];
+   Int_t mehtool_x_pion_truetime_sz;
+
+   //Get Variables for U clusters
+
+   Double_t mehtool_u_matchedclusters_datafraction[200];
+
+   Int_t mehtool_u_pion_primary_particle_trackID[200];
+
+   Int_t mehtool_u_true_pion_pdg[200];
+
+   Double_t mehtool_u_matchedclusters_datafraction_sz;
+
+   Int_t mehtool_u_pion_primary_particle_trackID_sz;
+
+   Int_t mehtool_u_true_pion_pdg_sz;
+
+   Double_t mehtool_u_true_pion_x1vec[200];
+   Int_t   mehtool_u_true_pion_x1vec_sz;
+   Double_t mehtool_u_true_pion_y1vec[200];
+   Int_t mehtool_u_true_pion_y1vec_sz;
+   Double_t mehtool_u_true_pion_z1vec[200];
+   Int_t mehtool_u_true_pion_z1vec_sz;
+   Double_t mehtool_u_true_pion_x2vec[200];
+   Int_t mehtool_u_true_pion_x2vec_sz;
+   Double_t mehtool_u_true_pion_y2vec[200];
+   Int_t mehtool_u_true_pion_y2vec_sz;
+   Double_t mehtool_u_true_pion_z2vec[200];
+   Int_t mehtool_u_true_pion_z2vec_sz;
+
+   Int_t mehtool_u_pion_parent_PDG[200];
+   Int_t mehtool_u_pion_parent_PDG_sz;
+   Int_t mehtool_u_pion_from_decay[200];
+   Int_t mehtool_u_pion_from_decay_sz;
+
+   Int_t mehtool_u_pion_parent_trackID[200];
+   Int_t mehtool_u_pion_parent_trackID_sz;
+
+   Double_t mehtool_u_pion_truetime[200];
+   Int_t mehtool_u_pion_truetime_sz;
+
+   //Get V Variables
+
+   Double_t mehtool_v_matchedclusters_datafraction[200];
+
+   Int_t mehtool_v_pion_primary_particle_trackID[200];
+
+   Int_t mehtool_v_true_pion_pdg[200];
+
+   Double_t mehtool_v_matchedclusters_datafraction_sz;
+
+   Int_t mehtool_v_pion_primary_particle_trackID_sz;
+
+   Int_t mehtool_v_true_pion_pdg_sz;
+
+   Double_t mehtool_v_true_pion_x1vec[200];
+   Int_t   mehtool_v_true_pion_x1vec_sz;
+   Double_t mehtool_v_true_pion_y1vec[200];
+   Int_t mehtool_v_true_pion_y1vec_sz;
+   Double_t mehtool_v_true_pion_z1vec[200];
+   Int_t mehtool_v_true_pion_z1vec_sz;
+   Double_t mehtool_v_true_pion_x2vec[200];
+   Int_t mehtool_v_true_pion_x2vec_sz;
+   Double_t mehtool_v_true_pion_y2vec[200];
+   Int_t mehtool_v_true_pion_y2vec_sz;
+   Double_t mehtool_v_true_pion_z2vec[200];
+   Int_t mehtool_v_true_pion_z2vec_sz;
+
+   Int_t mehtool_v_pion_parent_PDG[200];
+   Int_t mehtool_v_pion_parent_PDG_sz;
+   Int_t mehtool_v_pion_from_decay[200];
+   Int_t mehtool_v_pion_from_decay_sz;
+
+   Int_t mehtool_v_pion_parent_trackID[200];
+   Int_t mehtool_v_pion_parent_trackID_sz;
+
+   Double_t mehtool_v_pion_truetime[200];
+   Int_t mehtool_v_pion_truetime_sz;
 
    // ----------------- True Matched Michel Info ------------------
 
@@ -1465,35 +1547,99 @@ public :
    TBranch *b_mehtool_true_michel_pdg;
    TBranch *b_mehtool_true_michel_pdg_sz;
 
-   TBranch *b_mehtool_matchedclusters_datafraction;
-   TBranch *b_mehtool_pion_primary_particle_trackID;
-   TBranch *b_mehtool_true_pion_pdg;
-   TBranch *b_mehtool_true_pion_x1vec;
-   TBranch *b_mehtool_true_pion_y1vec;
-   TBranch *b_mehtool_true_pion_z1vec;
-   TBranch *b_mehtool_true_pion_x2vec;
-   TBranch *b_mehtool_true_pion_y2vec;
-   TBranch *b_mehtool_true_pion_z2vec;
-   TBranch *b_mehtool_pion_parent_PDG;
-   TBranch *b_mehtool_pion_from_decay;
-   TBranch *b_mehtool_pion_parent_trackID;
-   TBranch *b_mehtool_pion_truetime;
-
-   TBranch *b_mehtool_matchedclusters_datafraction_sz;
-   TBranch *b_mehtool_pion_primary_particle_trackI_szD;
-   TBranch *b_mehtool_true_pion_pdg_sz;
-   TBranch *b_mehtool_true_pion_x1vec_sz;
-   TBranch *b_mehtool_true_pion_y1vec_sz;
-   TBranch *b_mehtool_true_pion_z1vec_sz;
-   TBranch *b_mehtool_true_pion_x2vec_sz;
-   TBranch *b_mehtool_true_pion_y2vec_sz;
-   TBranch *b_mehtool_true_pion_z2vec_sz;
-   TBranch *b_mehtool_pion_parent_PDG_sz;
-   TBranch *b_mehtool_pion_from_decay_sz;
-   TBranch *b_mehtool_pion_parent_trackID_sz;
-   TBranch *b_mehtool_pion_truetime_sz;
+   TBranch *b_mehtool_michel_parent_PDG;
+   TBranch *b_mehtool_michel_parent_PDG_sz;
 
 
+
+   //Get Branches for X cluster truth
+   TBranch *b_mehtool_x_matchedclusters_datafraction;
+   TBranch *b_mehtool_x_pion_primary_particle_trackID;
+   TBranch *b_mehtool_x_true_pion_pdg;
+   TBranch *b_mehtool_x_true_pion_x1vec;
+   TBranch *b_mehtool_x_true_pion_y1vec;
+   TBranch *b_mehtool_x_true_pion_z1vec;
+   TBranch *b_mehtool_x_true_pion_x2vec;
+   TBranch *b_mehtool_x_true_pion_y2vec;
+   TBranch *b_mehtool_x_true_pion_z2vec;
+   TBranch *b_mehtool_x_pion_parent_PDG;
+   TBranch *b_mehtool_x_pion_from_decay;
+   TBranch *b_mehtool_x_pion_parent_trackID;
+   TBranch *b_mehtool_x_pion_truetime;
+
+   TBranch *b_mehtool_x_matchedclusters_datafraction_sz;
+   TBranch *b_mehtool_x_pion_primary_particle_trackID_sz;
+   TBranch *b_mehtool_x_true_pion_pdg_sz;
+   TBranch *b_mehtool_x_true_pion_x1vec_sz;
+   TBranch *b_mehtool_x_true_pion_y1vec_sz;
+   TBranch *b_mehtool_x_true_pion_z1vec_sz;
+   TBranch *b_mehtool_x_true_pion_x2vec_sz;
+   TBranch *b_mehtool_x_true_pion_y2vec_sz;
+   TBranch *b_mehtool_x_true_pion_z2vec_sz;
+   TBranch *b_mehtool_x_pion_parent_PDG_sz;
+   TBranch *b_mehtool_x_pion_from_decay_sz;
+   TBranch *b_mehtool_x_pion_parent_trackID_sz;
+   TBranch *b_mehtool_x_pion_truetime_sz;
+
+   //Get Branches for U cluster truth
+
+   TBranch *b_mehtool_u_matchedclusters_datafraction;
+   TBranch *b_mehtool_u_pion_primary_particle_trackID;
+   TBranch *b_mehtool_u_true_pion_pdg;
+   TBranch *b_mehtool_u_true_pion_x1vec;
+   TBranch *b_mehtool_u_true_pion_y1vec;
+   TBranch *b_mehtool_u_true_pion_z1vec;
+   TBranch *b_mehtool_u_true_pion_x2vec;
+   TBranch *b_mehtool_u_true_pion_y2vec;
+   TBranch *b_mehtool_u_true_pion_z2vec;
+   TBranch *b_mehtool_u_pion_parent_PDG;
+   TBranch *b_mehtool_u_pion_from_decay;
+   TBranch *b_mehtool_u_pion_parent_trackID;
+   TBranch *b_mehtool_u_pion_truetime;
+
+   TBranch *b_mehtool_u_matchedclusters_datafraction_sz;
+   TBranch *b_mehtool_u_pion_primary_particle_trackID_sz;
+   TBranch *b_mehtool_u_true_pion_pdg_sz;
+   TBranch *b_mehtool_u_true_pion_x1vec_sz;
+   TBranch *b_mehtool_u_true_pion_y1vec_sz;
+   TBranch *b_mehtool_u_true_pion_z1vec_sz;
+   TBranch *b_mehtool_u_true_pion_x2vec_sz;
+   TBranch *b_mehtool_u_true_pion_y2vec_sz;
+   TBranch *b_mehtool_u_true_pion_z2vec_sz;
+   TBranch *b_mehtool_u_pion_parent_PDG_sz;
+   TBranch *b_mehtool_u_pion_from_decay_sz;
+   TBranch *b_mehtool_u_pion_parent_trackID_sz;
+   TBranch *b_mehtool_u_pion_truetime_sz;
+
+   //Get Branches for V cluster truth variables
+
+   TBranch *b_mehtool_v_matchedclusters_datafraction;
+   TBranch *b_mehtool_v_pion_primary_particle_trackID;
+   TBranch *b_mehtool_v_true_pion_pdg;
+   TBranch *b_mehtool_v_true_pion_x1vec;
+   TBranch *b_mehtool_v_true_pion_y1vec;
+   TBranch *b_mehtool_v_true_pion_z1vec;
+   TBranch *b_mehtool_v_true_pion_x2vec;
+   TBranch *b_mehtool_v_true_pion_y2vec;
+   TBranch *b_mehtool_v_true_pion_z2vec;
+   TBranch *b_mehtool_v_pion_parent_PDG;
+   TBranch *b_mehtool_v_pion_from_decay;
+   TBranch *b_mehtool_v_pion_parent_trackID;
+   TBranch *b_mehtool_v_pion_truetime;
+
+   TBranch *b_mehtool_v_matchedclusters_datafraction_sz;
+   TBranch *b_mehtool_v_pion_primary_particle_trackID_sz;
+   TBranch *b_mehtool_v_true_pion_pdg_sz;
+   TBranch *b_mehtool_v_true_pion_x1vec_sz;
+   TBranch *b_mehtool_v_true_pion_y1vec_sz;
+   TBranch *b_mehtool_v_true_pion_z1vec_sz;
+   TBranch *b_mehtool_v_true_pion_x2vec_sz;
+   TBranch *b_mehtool_v_true_pion_y2vec_sz;
+   TBranch *b_mehtool_v_true_pion_z2vec_sz;
+   TBranch *b_mehtool_v_pion_parent_PDG_sz;
+   TBranch *b_mehtool_v_pion_from_decay_sz;
+   TBranch *b_mehtool_v_pion_parent_trackID_sz;
+   TBranch *b_mehtool_v_pion_truetime_sz;
 
 
    // -------------------- True Matched Michel Variables
@@ -2519,20 +2665,99 @@ void CCQENU_ANA::CCQENuEvent::Init(TTree *tree, bool IsData)
   fChain->SetBranchAddress("mehtool_true_michel_pdg", mehtool_true_michel_pdg, &b_mehtool_true_michel_pdg);
   fChain->SetBranchAddress("mehtool_true_michel_pdg_sz", &mehtool_true_michel_pdg_sz, &b_mehtool_true_michel_pdg_sz);
 
-  fChain->SetBranchAddress("mehtool_matchedclusters_datafraction", mehtool_matchedclusters_datafraction, &b_mehtool_matchedclusters_datafraction);
-  fChain->SetBranchAddress("mehtool_pion_primary_particle_trackID", mehtool_pion_primary_particle_trackID, &b_mehtool_pion_primary_particle_trackID);
-  fChain->SetBranchAddress("mehtool_true_pion_pdg", mehtool_true_pion_pdg, &b_mehtool_true_pion_pdg);
-  fChain->SetBranchAddress("mehtool_true_pion_x1vec", mehtool_true_pion_x1vec, &b_mehtool_true_pion_x1vec);
-  fChain->SetBranchAddress("mehtool_true_pion_y1vec", mehtool_true_pion_y1vec, &b_mehtool_true_pion_y1vec);
-  fChain->SetBranchAddress("mehtool_true_pion_z1vec", mehtool_true_pion_z1vec, &b_mehtool_true_pion_z1vec);
-  fChain->SetBranchAddress("mehtool_true_pion_x2vec", mehtool_true_pion_x2vec, &b_mehtool_true_pion_x2vec);
-  fChain->SetBranchAddress("mehtool_true_pion_y2vec", mehtool_true_pion_y2vec, &b_mehtool_true_pion_y2vec);
-  fChain->SetBranchAddress("mehtool_true_pion_z2vec", mehtool_true_pion_z2vec, &b_mehtool_true_pion_z2vec);
-  fChain->SetBranchAddress("mehtool_pion_parent_PDG", mehtool_pion_parent_PDG, &b_mehtool_pion_parent_PDG);
-  fChain->SetBranchAddress("mehtool_pion_from_decay", mehtool_pion_from_decay, &b_mehtool_pion_from_decay);
-  fChain->SetBranchAddress("mehtool_pion_parent_trackID", mehtool_pion_parent_trackID, &b_mehtool_pion_parent_trackID);
-  fChain->SetBranchAddress("mehtool_pion_truetime", mehtool_pion_truetime, &b_mehtool_pion_truetime );
+  fChain->SetBranchAddress("mehtool_michel_parent_PDG", mehtool_michel_parent_PDG, &b_mehtool_michel_parent_PDG);
+  fChain->SetBranchAddress("mehtool_michel_parent_PDG_sz", &mehtool_michel_parent_PDG_sz, &b_mehtool_michel_parent_PDG_sz);
 
+  //Set Branch address for X pion candidates
+  fChain->SetBranchAddress("mehtool_x_matchedclusters_datafraction", mehtool_x_matchedclusters_datafraction, &b_mehtool_x_matchedclusters_datafraction);
+  fChain->SetBranchAddress("mehtool_x_pion_primary_particle_trackID", mehtool_x_pion_primary_particle_trackID, &b_mehtool_x_pion_primary_particle_trackID);
+  fChain->SetBranchAddress("mehtool_x_true_pion_pdg", mehtool_x_true_pion_pdg, &b_mehtool_x_true_pion_pdg);
+  fChain->SetBranchAddress("mehtool_x_true_pion_x1vec", mehtool_x_true_pion_x1vec, &b_mehtool_x_true_pion_x1vec);
+  fChain->SetBranchAddress("mehtool_x_true_pion_y1vec", mehtool_x_true_pion_y1vec, &b_mehtool_x_true_pion_y1vec);
+  fChain->SetBranchAddress("mehtool_x_true_pion_z1vec", mehtool_x_true_pion_z1vec, &b_mehtool_x_true_pion_z1vec);
+  fChain->SetBranchAddress("mehtool_x_true_pion_x2vec", mehtool_x_true_pion_x2vec, &b_mehtool_x_true_pion_x2vec);
+  fChain->SetBranchAddress("mehtool_x_true_pion_y2vec", mehtool_x_true_pion_y2vec, &b_mehtool_x_true_pion_y2vec);
+  fChain->SetBranchAddress("mehtool_x_true_pion_z2vec", mehtool_x_true_pion_z2vec, &b_mehtool_x_true_pion_z2vec);
+  fChain->SetBranchAddress("mehtool_x_pion_parent_PDG", mehtool_x_pion_parent_PDG, &b_mehtool_x_pion_parent_PDG);
+  fChain->SetBranchAddress("mehtool_x_pion_from_decay", mehtool_x_pion_from_decay, &b_mehtool_x_pion_from_decay);
+  fChain->SetBranchAddress("mehtool_x_pion_parent_trackID", mehtool_x_pion_parent_trackID, &b_mehtool_x_pion_parent_trackID);
+  fChain->SetBranchAddress("mehtool_x_pion_truetime", mehtool_x_pion_truetime, &b_mehtool_x_pion_truetime );
+
+
+  fChain->SetBranchAddress("mehtool_x_matchedclusters_datafraction_sz", &mehtool_x_matchedclusters_datafraction_sz, &b_mehtool_x_matchedclusters_datafraction_sz);
+  fChain->SetBranchAddress("mehtool_x_pion_primary_particle_trackID_sz", &mehtool_x_pion_primary_particle_trackID_sz, &b_mehtool_x_pion_primary_particle_trackID_sz);
+  fChain->SetBranchAddress("mehtool_x_true_pion_pdg_sz", &mehtool_x_true_pion_pdg_sz, &b_mehtool_x_true_pion_pdg_sz);
+  fChain->SetBranchAddress("mehtool_x_true_pion_x1vec_sz", &mehtool_x_true_pion_x1vec_sz, &b_mehtool_x_true_pion_x1vec_sz);
+  fChain->SetBranchAddress("mehtool_x_true_pion_y1vec_sz", &mehtool_x_true_pion_y1vec_sz, &b_mehtool_x_true_pion_y1vec_sz);
+  fChain->SetBranchAddress("mehtool_x_true_pion_z1vec_sz", &mehtool_x_true_pion_z1vec_sz, &b_mehtool_x_true_pion_z1vec_sz);
+  fChain->SetBranchAddress("mehtool_x_true_pion_x2vec_sz", &mehtool_x_true_pion_x2vec_sz, &b_mehtool_x_true_pion_x2vec_sz);
+  fChain->SetBranchAddress("mehtool_x_true_pion_y2vec_sz", &mehtool_x_true_pion_y2vec_sz, &b_mehtool_x_true_pion_y2vec_sz);
+  fChain->SetBranchAddress("mehtool_x_true_pion_z2vec_sz", &mehtool_x_true_pion_z2vec_sz, &b_mehtool_x_true_pion_z2vec_sz);
+  fChain->SetBranchAddress("mehtool_x_pion_parent_PDG_sz", &mehtool_x_pion_parent_PDG_sz, &b_mehtool_x_pion_parent_PDG_sz);
+  fChain->SetBranchAddress("mehtool_x_pion_from_decay_sz", &mehtool_x_pion_from_decay_sz, &b_mehtool_x_pion_from_decay_sz);
+  fChain->SetBranchAddress("mehtool_x_pion_parent_trackID_sz", &mehtool_x_pion_parent_trackID_sz, &b_mehtool_x_pion_parent_trackID_sz);
+  fChain->SetBranchAddress("mehtool_x_pion_truetime_sz", &mehtool_x_pion_truetime_sz, &b_mehtool_x_pion_truetime_sz );
+  // SEt Branch Address for U pion candidates
+
+  fChain->SetBranchAddress("mehtool_u_matchedclusters_datafraction", mehtool_u_matchedclusters_datafraction, &b_mehtool_u_matchedclusters_datafraction);
+  fChain->SetBranchAddress("mehtool_u_pion_primary_particle_trackID", mehtool_u_pion_primary_particle_trackID, &b_mehtool_u_pion_primary_particle_trackID);
+  fChain->SetBranchAddress("mehtool_u_true_pion_pdg", mehtool_u_true_pion_pdg, &b_mehtool_u_true_pion_pdg);
+  fChain->SetBranchAddress("mehtool_u_true_pion_x1vec", mehtool_u_true_pion_x1vec, &b_mehtool_u_true_pion_x1vec);
+  fChain->SetBranchAddress("mehtool_u_true_pion_y1vec", mehtool_u_true_pion_y1vec, &b_mehtool_u_true_pion_y1vec);
+  fChain->SetBranchAddress("mehtool_u_true_pion_z1vec", mehtool_u_true_pion_z1vec, &b_mehtool_u_true_pion_z1vec);
+  fChain->SetBranchAddress("mehtool_u_true_pion_x2vec", mehtool_u_true_pion_x2vec, &b_mehtool_u_true_pion_x2vec);
+  fChain->SetBranchAddress("mehtool_u_true_pion_y2vec", mehtool_u_true_pion_y2vec, &b_mehtool_u_true_pion_y2vec);
+  fChain->SetBranchAddress("mehtool_u_true_pion_z2vec", mehtool_u_true_pion_z2vec, &b_mehtool_u_true_pion_z2vec);
+  fChain->SetBranchAddress("mehtool_u_pion_parent_PDG", mehtool_u_pion_parent_PDG, &b_mehtool_u_pion_parent_PDG);
+  fChain->SetBranchAddress("mehtool_u_pion_from_decay", mehtool_u_pion_from_decay, &b_mehtool_u_pion_from_decay);
+  fChain->SetBranchAddress("mehtool_u_pion_parent_trackID", mehtool_u_pion_parent_trackID, &b_mehtool_u_pion_parent_trackID);
+  fChain->SetBranchAddress("mehtool_u_pion_truetime", mehtool_u_pion_truetime, &b_mehtool_u_pion_truetime );
+
+
+  fChain->SetBranchAddress("mehtool_u_matchedclusters_datafraction_sz", &mehtool_u_matchedclusters_datafraction_sz, &b_mehtool_u_matchedclusters_datafraction_sz);
+  fChain->SetBranchAddress("mehtool_u_pion_primary_particle_trackID_sz", &mehtool_u_pion_primary_particle_trackID_sz, &b_mehtool_u_pion_primary_particle_trackID_sz);
+  fChain->SetBranchAddress("mehtool_u_true_pion_pdg_sz", &mehtool_u_true_pion_pdg_sz, &b_mehtool_u_true_pion_pdg_sz);
+  fChain->SetBranchAddress("mehtool_u_true_pion_x1vec_sz", &mehtool_u_true_pion_x1vec_sz, &b_mehtool_u_true_pion_x1vec_sz);
+  fChain->SetBranchAddress("mehtool_u_true_pion_y1vec_sz", &mehtool_u_true_pion_y1vec_sz, &b_mehtool_u_true_pion_y1vec_sz);
+  fChain->SetBranchAddress("mehtool_u_true_pion_z1vec_sz", &mehtool_u_true_pion_z1vec_sz, &b_mehtool_u_true_pion_z1vec_sz);
+  fChain->SetBranchAddress("mehtool_u_true_pion_x2vec_sz", &mehtool_u_true_pion_x2vec_sz, &b_mehtool_u_true_pion_x2vec_sz);
+  fChain->SetBranchAddress("mehtool_u_true_pion_y2vec_sz", &mehtool_u_true_pion_y2vec_sz, &b_mehtool_u_true_pion_y2vec_sz);
+  fChain->SetBranchAddress("mehtool_u_true_pion_z2vec_sz", &mehtool_u_true_pion_z2vec_sz, &b_mehtool_u_true_pion_z2vec_sz);
+  fChain->SetBranchAddress("mehtool_u_pion_parent_PDG_sz", &mehtool_u_pion_parent_PDG_sz, &b_mehtool_u_pion_parent_PDG_sz);
+  fChain->SetBranchAddress("mehtool_u_pion_from_decay_sz", &mehtool_u_pion_from_decay_sz, &b_mehtool_u_pion_from_decay_sz);
+  fChain->SetBranchAddress("mehtool_u_pion_parent_trackID_sz", &mehtool_u_pion_parent_trackID_sz, &b_mehtool_u_pion_parent_trackID_sz);
+  fChain->SetBranchAddress("mehtool_u_pion_truetime_sz", &mehtool_u_pion_truetime_sz, &b_mehtool_u_pion_truetime_sz );
+
+  //Set Branch Address for V Variables
+
+  fChain->SetBranchAddress("mehtool_v_matchedclusters_datafraction", mehtool_v_matchedclusters_datafraction, &b_mehtool_v_matchedclusters_datafraction);
+  fChain->SetBranchAddress("mehtool_v_pion_primary_particle_trackID", mehtool_v_pion_primary_particle_trackID, &b_mehtool_v_pion_primary_particle_trackID);
+  fChain->SetBranchAddress("mehtool_v_true_pion_pdg", mehtool_v_true_pion_pdg, &b_mehtool_v_true_pion_pdg);
+  fChain->SetBranchAddress("mehtool_v_true_pion_x1vec", mehtool_v_true_pion_x1vec, &b_mehtool_v_true_pion_x1vec);
+  fChain->SetBranchAddress("mehtool_v_true_pion_y1vec", mehtool_v_true_pion_y1vec, &b_mehtool_v_true_pion_y1vec);
+  fChain->SetBranchAddress("mehtool_v_true_pion_z1vec", mehtool_v_true_pion_z1vec, &b_mehtool_v_true_pion_z1vec);
+  fChain->SetBranchAddress("mehtool_v_true_pion_x2vec", mehtool_v_true_pion_x2vec, &b_mehtool_v_true_pion_x2vec);
+  fChain->SetBranchAddress("mehtool_v_true_pion_y2vec", mehtool_v_true_pion_y2vec, &b_mehtool_v_true_pion_y2vec);
+  fChain->SetBranchAddress("mehtool_v_true_pion_z2vec", mehtool_v_true_pion_z2vec, &b_mehtool_v_true_pion_z2vec);
+  fChain->SetBranchAddress("mehtool_v_pion_parent_PDG", mehtool_v_pion_parent_PDG, &b_mehtool_v_pion_parent_PDG);
+  fChain->SetBranchAddress("mehtool_v_pion_from_decay", mehtool_v_pion_from_decay, &b_mehtool_v_pion_from_decay);
+  fChain->SetBranchAddress("mehtool_v_pion_parent_trackID", mehtool_v_pion_parent_trackID, &b_mehtool_v_pion_parent_trackID);
+  fChain->SetBranchAddress("mehtool_v_pion_truetime", mehtool_v_pion_truetime, &b_mehtool_v_pion_truetime );
+
+
+  fChain->SetBranchAddress("mehtool_v_matchedclusters_datafraction_sz", &mehtool_v_matchedclusters_datafraction_sz, &b_mehtool_v_matchedclusters_datafraction_sz);
+  fChain->SetBranchAddress("mehtool_v_pion_primary_particle_trackID_sz", &mehtool_v_pion_primary_particle_trackID_sz, &b_mehtool_v_pion_primary_particle_trackID_sz);
+  fChain->SetBranchAddress("mehtool_v_true_pion_pdg_sz", &mehtool_v_true_pion_pdg_sz, &b_mehtool_v_true_pion_pdg_sz);
+  fChain->SetBranchAddress("mehtool_v_true_pion_x1vec_sz", &mehtool_v_true_pion_x1vec_sz, &b_mehtool_v_true_pion_x1vec_sz);
+  fChain->SetBranchAddress("mehtool_v_true_pion_y1vec_sz", &mehtool_v_true_pion_y1vec_sz, &b_mehtool_v_true_pion_y1vec_sz);
+  fChain->SetBranchAddress("mehtool_v_true_pion_z1vec_sz", &mehtool_v_true_pion_z1vec_sz, &b_mehtool_v_true_pion_z1vec_sz);
+  fChain->SetBranchAddress("mehtool_v_true_pion_x2vec_sz", &mehtool_v_true_pion_x2vec_sz, &b_mehtool_v_true_pion_x2vec_sz);
+  fChain->SetBranchAddress("mehtool_v_true_pion_y2vec_sz", &mehtool_v_true_pion_y2vec_sz, &b_mehtool_v_true_pion_y2vec_sz);
+  fChain->SetBranchAddress("mehtool_v_true_pion_z2vec_sz", &mehtool_v_true_pion_z2vec_sz, &b_mehtool_v_true_pion_z2vec_sz);
+  fChain->SetBranchAddress("mehtool_v_pion_parent_PDG_sz", &mehtool_v_pion_parent_PDG_sz, &b_mehtool_v_pion_parent_PDG_sz);
+  fChain->SetBranchAddress("mehtool_v_pion_from_decay_sz", &mehtool_v_pion_from_decay_sz, &b_mehtool_v_pion_from_decay_sz);
+  fChain->SetBranchAddress("mehtool_v_pion_parent_trackID_sz", &mehtool_v_pion_parent_trackID_sz, &b_mehtool_v_pion_parent_trackID_sz);
+  fChain->SetBranchAddress("mehtool_v_pion_truetime_sz", &mehtool_v_pion_truetime_sz, &b_mehtool_v_pion_truetime_sz );
 
 
    fChain->SetBranchAddress("muon_thetaX_allNodes_sz", &muon_thetaX_allNodes_sz, &b_muon_thetaX_allNodes_sz);
